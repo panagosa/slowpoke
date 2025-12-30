@@ -48,6 +48,16 @@
             <p class="coming-soon">coming soon</p>
         </div>
     </div>
+    <script>
+        document.querySelectorAll('.letter').forEach(letter => {
+            letter.addEventListener('mouseenter', function() {
+                this.classList.add('loading');
+                setTimeout(() => {
+                    this.classList.remove('loading');
+                }, 1500);
+            });
+        });
+    </script>
 </body>
 </html>
 
