@@ -140,6 +140,7 @@ body {
     animation: letterReveal 0.6s ease-out forwards;
     animation-delay: var(--delay);
     cursor: default;
+    transition: none;
 }
 
 .letter::after {
@@ -150,14 +151,19 @@ body {
     transform: translate(-50%, -50%);
     opacity: 0;
     pointer-events: none;
+    font-size: 1em;
+    line-height: 1;
+    width: 1em;
+    text-align: center;
+    transition: none;
 }
 
-.letter:hover {
+.letter.loading {
     opacity: 0 !important;
-    color: transparent;
+    color: transparent !important;
 }
 
-.letter:hover::after {
+.letter.loading::after {
     content: '.';
     opacity: 1;
     animation: loadingDot 1.5s ease-in-out;
