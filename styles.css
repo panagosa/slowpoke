@@ -20,8 +20,7 @@ body {
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
-    padding-bottom: 15vh;
+    align-items: center;
     border-left: 2px solid #d3d3d3;
     border-right: 2px solid #d3d3d3;
     position: relative;
@@ -30,9 +29,9 @@ body {
 /* Loading Animation */
 .loader {
     position: absolute;
-    bottom: 15vh;
     left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
     width: 300px;
     height: 2px;
     background-color: rgba(255, 255, 255, 0.1);
@@ -97,6 +96,18 @@ body {
     letter-spacing: 0.05em;
     text-transform: lowercase;
     line-height: 1.2;
+    margin-bottom: 2rem;
+}
+
+.coming-soon {
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    opacity: 0;
+    margin-top: 3rem;
+    animation: fadeInContent 0.8s ease-out 2.5s forwards;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 /* Letter Animation */
@@ -128,8 +139,9 @@ body {
         font-size: 1.5rem;
     }
     
-    .container {
-        padding-bottom: 20vh;
+    .coming-soon {
+        font-size: 0.85rem;
+        margin-top: 2rem;
     }
 }
 
@@ -140,6 +152,15 @@ body {
     
     .subtitle {
         font-size: 1.2rem;
+    }
+    
+    .coming-soon {
+        font-size: 0.75rem;
+        margin-top: 1.5rem;
+    }
+    
+    .loader {
+        width: 250px;
     }
 }
 
