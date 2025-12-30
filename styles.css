@@ -138,6 +138,9 @@ body {
     margin-top: 3rem;
     animation: fadeInContent 0.8s ease-out 2.5s forwards;
     color: rgba(255, 255, 255, 0.6);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 /* Letter Animation */
