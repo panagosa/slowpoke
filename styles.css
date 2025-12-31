@@ -51,8 +51,8 @@ body {
         transparent 70%
     );
     transform: translate(-50%, -50%);
-    left: var(--x, 50%);
-    top: var(--y, 50%);
+    left: var(--x, 50vw);
+    top: var(--y, 50vh);
 }
 
 main {
