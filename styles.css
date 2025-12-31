@@ -15,13 +15,44 @@ html, body {
 }
 
 body {
-    background: linear-gradient(135deg, #000 0%, #fff 100%);
+    background: #000;
     color: #fff;
     min-height: 100vh;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+
+/* Spotlight effect */
+.spotlight {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 1;
+}
+
+.spotlight::before {
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.06) 30%,
+        rgba(255, 255, 255, 0.02) 50%,
+        transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    left: var(--x, 50%);
+    top: var(--y, 50%);
 }
 
 main {
