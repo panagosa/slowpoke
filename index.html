@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>slowpoke productions</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -50,10 +47,37 @@
     </div>
     <script>
         document.querySelectorAll('.letter').forEach(letter => {
+            let timeoutId = null;
+            
             letter.addEventListener('mouseenter', function() {
+                // Clear any existing timeout
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                
+                // Remove any existing loading dots
+                const existingDots = this.querySelector('.loading-dots');
+                if (existingDots) {
+                    existingDots.remove();
+                }
+                
                 this.classList.add('loading');
-                setTimeout(() => {
+                
+                // Create loading dots
+                const dots = document.createElement('span');
+                dots.className = 'loading-dots';
+                dots.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+                this.appendChild(dots);
+                
+                // Set new timeout and store the ID
+                timeoutId = setTimeout(() => {
                     this.classList.remove('loading');
+                    const dotsElement = this.querySelector('.loading-dots');
+                    if (dotsElement) {
+                        dotsElement.remove();
+                    }
+                    timeoutId = null;
                 }, 1500);
             });
         });
