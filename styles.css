@@ -87,6 +87,11 @@ main {
     animation: fadeInContent 0.8s ease-out 2.2s forwards;
 }
 
+.lockup {
+    display: inline-block;
+    padding: 4px 0;
+}
+
 @keyframes fadeInContent {
     from {
         opacity: 0;
@@ -101,19 +106,21 @@ main {
 .title {
     font-size: 4rem;
     font-weight: 300;
-    letter-spacing: 0;
+    letter-spacing: 0.08em;
     text-transform: lowercase;
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
+    margin: 0;
+    margin-bottom: 2px;
+    line-height: 0.95;
 }
 
 .subtitle {
     font-size: 2.5rem;
     font-weight: 300;
-    letter-spacing: 0;
+    letter-spacing: 0.12em;
     text-transform: lowercase;
-    line-height: 1.2;
-    margin-bottom: 2rem;
+    line-height: 0.9;
+    margin: 0;
+    margin-bottom: 8px;
 }
 
 .word {
@@ -127,17 +134,20 @@ main {
 }
 
 .coming-soon {
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 300;
-    letter-spacing: 0.025em;
+    letter-spacing: 0.15em;
     text-transform: lowercase;
     opacity: 0;
-    margin-top: 3rem;
+    margin: 0;
+    margin-top: 6px;
+    padding-top: 8px;
     animation: fadeInContent 0.8s ease-out 2.5s forwards;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.45);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    line-height: 1;
 }
 
 /* Letter Animation */
@@ -239,30 +249,40 @@ main {
 @media (max-width: 768px) {
     .title {
         font-size: 2.5rem;
+        margin-bottom: 2px;
+        line-height: 0.95;
     }
     
     .subtitle {
         font-size: 1.5rem;
+        margin-bottom: 6px;
+        line-height: 0.9;
     }
     
     .coming-soon {
-        font-size: 0.85rem;
-        margin-top: 2rem;
+        font-size: 0.75rem;
+        margin-top: 6px;
+        padding-top: 6px;
     }
 }
 
 @media (max-width: 480px) {
     .title {
         font-size: 2rem;
+        margin-bottom: 1px;
+        line-height: 0.95;
     }
     
     .subtitle {
         font-size: 1.2rem;
+        margin-bottom: 5px;
+        line-height: 0.9;
     }
     
     .coming-soon {
-        font-size: 0.75rem;
-        margin-top: 1.5rem;
+        font-size: 0.7rem;
+        margin-top: 5px;
+        padding-top: 5px;
     }
     
     .loader {
