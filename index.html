@@ -34,60 +34,76 @@
         </div>
     </main>
     <script>
-        // Spotlight animation
+        // Spotlight follows mouse cursor
         const spotlight = document.querySelector('.spotlight');
-        let time = 0;
+        const letters = document.querySelectorAll('.letter');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
         
-        function animateSpotlight() {
-            time += 0.002; // Slow movement speed
-            
-            // Create smooth, organic movement using multiple sine waves
-            const x = 50 + Math.sin(time * 0.7) * 30 + Math.sin(time * 1.3) * 15;
-            const y = 50 + Math.cos(time * 0.5) * 25 + Math.cos(time * 1.1) * 10;
-            
-            spotlight.style.setProperty('--x', x + '%');
-            spotlight.style.setProperty('--y', y + '%');
-            
-            requestAnimationFrame(animateSpotlight);
+        // Spotlight radius (in pixels) - matches CSS size
+        const spotlightRadius = 300;
+        
+        // Initialize spotlight position at center
+        spotlight.style.setProperty('--x', '50%');
+        spotlight.style.setProperty('--y', '50%');
+        
+        // Function to calculate distance between two points
+        function getDistance(x1, y1, x2, y2) {
+            return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
         }
         
-        animateSpotlight();
-        
-        document.querySelectorAll('.letter').forEach(letter => {
-            let timeoutId = null;
-            
-            letter.addEventListener('mouseenter', function() {
-                // Clear any existing timeout
-                if (timeoutId) {
-                    clearTimeout(timeoutId);
-                    timeoutId = null;
-                }
+        // Function to update letter effects based on spotlight position
+        function updateLetterEffects() {
+            letters.forEach(letter => {
+                const rect = letter.getBoundingClientRect();
+                const letterX = rect.left + rect.width / 2;
+                const letterY = rect.top + rect.height / 2;
                 
-                // Remove any existing loading dots
-                const existingDots = this.querySelector('.loading-dots');
-                if (existingDots) {
-                    existingDots.remove();
-                }
+                const distance = getDistance(mouseX, mouseY, letterX, letterY);
                 
-                this.classList.add('loading');
+                // Calculate intensity based on distance (0 to 1)
+                // Letters within spotlight radius get affected
+                const maxDistance = spotlightRadius;
+                const intensity = Math.max(0, 1 - (distance / maxDistance));
                 
-                // Create loading dots
-                const dots = document.createElement('span');
-                dots.className = 'loading-dots';
-                dots.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
-                this.appendChild(dots);
+                // Apply effects based on intensity
+                // Brightness/opacity increases, scale increases, and text shadow for glow
+                const brightness = 1 + (intensity * 1.5); // Up to 2.5x brightness
+                const scale = 1 + (intensity * 0.15); // Up to 15% scale increase
+                const shadowBlur = intensity * 10; // Glow effect
                 
-                // Set new timeout and store the ID
-                timeoutId = setTimeout(() => {
-                    this.classList.remove('loading');
-                    const dotsElement = this.querySelector('.loading-dots');
-                    if (dotsElement) {
-                        dotsElement.remove();
-                    }
-                    timeoutId = null;
-                }, 1500);
+                letter.style.filter = `brightness(${brightness})`;
+                letter.style.transform = `scale(${scale}) translateY(0)`;
+                letter.style.textShadow = intensity > 0.05 
+                    ? `0 0 ${shadowBlur}px rgba(255, 255, 255, ${intensity * 0.8})` 
+                    : 'none';
             });
+        }
+        
+        // Animation loop for smooth, consistent updates
+        function animate() {
+            // Convert pixel position to percentage
+            const xPercent = (mouseX / window.innerWidth) * 100;
+            const yPercent = (mouseY / window.innerHeight) * 100;
+            
+            // Update spotlight position
+            spotlight.style.setProperty('--x', xPercent + '%');
+            spotlight.style.setProperty('--y', yPercent + '%');
+            
+            // Update letter effects
+            updateLetterEffects();
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // Track mouse movement - update target position
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
+        
+        // Start animation loop
+        animate();
     </script>
 </body>
 </html>
