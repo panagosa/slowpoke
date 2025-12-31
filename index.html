@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Loading Animation -->
-        <div class="loader">
-            <div class="loader-progress"></div>
-        </div>
-        
-        <!-- Content -->
-        <div class="content">
+    <main>
+        <div class="container">
+            <!-- Loading Animation -->
+            <div class="loader">
+                <div class="loader-progress"></div>
+            </div>
+            
+            <!-- Content -->
+            <div class="content">
             <h1 class="title">
                 <span class="word">
                     <span class="letter" style="--delay: 0.1s">s</span>
@@ -44,7 +45,8 @@
             </h2>
             <p class="coming-soon">coming soon</p>
         </div>
-    </div>
+        </div>
+    </main>
     <script>
         document.querySelectorAll('.letter').forEach(letter => {
             let timeoutId = null;
