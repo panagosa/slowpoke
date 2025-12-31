@@ -49,8 +49,18 @@
         document.querySelectorAll('.letter').forEach(letter => {
             letter.addEventListener('mouseenter', function() {
                 this.classList.add('loading');
+                // Create loading dots
+                const dots = document.createElement('span');
+                dots.className = 'loading-dots';
+                dots.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+                this.appendChild(dots);
+                
                 setTimeout(() => {
                     this.classList.remove('loading');
+                    const dotsElement = this.querySelector('.loading-dots');
+                    if (dotsElement) {
+                        dotsElement.remove();
+                    }
                 }, 1500);
             });
         });
