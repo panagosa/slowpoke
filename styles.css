@@ -15,7 +15,6 @@ html, body {
 }
 
 body {
-    font-family: 'OCRAStd', 'OCR A Std', 'OCR-A-Std', monospace;
     background-color: #000;
     color: #fff;
     min-height: 100vh;
@@ -23,6 +22,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+main {
+    font-family: 'OCR A Std Regular', 'OCR A Std', monospace;
+    width: 100%;
+    height: 100%;
 }
 
 .container {
