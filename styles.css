@@ -116,6 +116,21 @@ main {
     margin-bottom: 2rem;
 }
 
+.word {
+    display: inline-flex;
+}
+
+/* Make "slowpoke productions" letters extremely close */
+.title .letter,
+.subtitle .letter {
+    margin-right: -0.45em;
+}
+
+.title .letter:last-child,
+.subtitle .letter:last-child {
+    margin-right: 0;
+}
+
 .coming-soon {
     font-size: 1rem;
     font-weight: 300;
