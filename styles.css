@@ -15,7 +15,7 @@ html, body {
 }
 
 body {
-    font-family: 'OCR A Std Regular', 'OCR A Std', 'OCR-A-Std', monospace;
+    font-family: 'OCRAStd', 'OCR A Std', 'OCR-A-Std', monospace;
     background-color: #000;
     color: #fff;
     min-height: 100vh;
