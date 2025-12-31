@@ -96,7 +96,7 @@ body {
 .title {
     font-size: 4rem;
     font-weight: 300;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.025em;
     text-transform: lowercase;
     margin-bottom: 0.5rem;
     line-height: 1.2;
@@ -105,7 +105,7 @@ body {
 .subtitle {
     font-size: 2.5rem;
     font-weight: 300;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.025em;
     text-transform: lowercase;
     line-height: 1.2;
     margin-bottom: 2rem;
@@ -114,7 +114,7 @@ body {
 .coming-soon {
     font-size: 1rem;
     font-weight: 300;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
     text-transform: lowercase;
     opacity: 0;
     margin-top: 3rem;
