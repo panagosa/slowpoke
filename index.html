@@ -8,27 +8,76 @@
 </head>
 <body>
     <div class="spotlight"></div>
+    <a href="#home" class="home-button" id="homeButton">home</a>
+    <nav class="side-nav">
+        <ul>
+            <li><a href="#about">about</a></li>
+            <li><a href="#work">work</a></li>
+            <li><a href="#contact">contact</a></li>
+        </ul>
+    </nav>
     <main>
-        <div class="container">
-            <!-- Loading Animation -->
-            <div class="loader">
-                <div class="loader-progress"></div>
+        <div class="page-container">
+            <!-- Home Page -->
+            <div class="page active" id="home">
+                <div class="container">
+                    <!-- Loading Animation -->
+                    <div class="loader">
+                        <div class="loader-progress"></div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="content">
+                        <div class="lockup">
+                            <h1 class="title">
+                                <span class="word">
+                                    <span class="letter" style="--delay: 0.1s">s</span><span class="letter" style="--delay: 0.15s">l</span><span class="letter" style="--delay: 0.2s">o</span><span class="letter" style="--delay: 0.25s">w</span><span class="letter" style="--delay: 0.3s">p</span><span class="letter" style="--delay: 0.35s">o</span><span class="letter" style="--delay: 0.4s">k</span><span class="letter" style="--delay: 0.45s">e</span>
+                                </span>
+                            </h1>
+                            <h2 class="subtitle">
+                                <span class="word">
+                                    <span class="letter" style="--delay: 0.6s">p</span><span class="letter" style="--delay: 0.65s">r</span><span class="letter" style="--delay: 0.7s">o</span><span class="letter" style="--delay: 0.75s">d</span><span class="letter" style="--delay: 0.8s">u</span><span class="letter" style="--delay: 0.85s">c</span><span class="letter" style="--delay: 0.9s">t</span><span class="letter" style="--delay: 0.95s">i</span><span class="letter" style="--delay: 1s">o</span><span class="letter" style="--delay: 1.05s">n</span><span class="letter" style="--delay: 1.1s">s</span>
+                                </span>
+                            </h2>
+                            <p class="coming-soon">coming soon</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             
-            <!-- Content -->
-            <div class="content">
-                <div class="lockup">
-                    <h1 class="title">
-                        <span class="word">
-                            <span class="letter" style="--delay: 0.1s">s</span><span class="letter" style="--delay: 0.15s">l</span><span class="letter" style="--delay: 0.2s">o</span><span class="letter" style="--delay: 0.25s">w</span><span class="letter" style="--delay: 0.3s">p</span><span class="letter" style="--delay: 0.35s">o</span><span class="letter" style="--delay: 0.4s">k</span><span class="letter" style="--delay: 0.45s">e</span>
-                        </span>
-                    </h1>
-                    <h2 class="subtitle">
-                        <span class="word">
-                            <span class="letter" style="--delay: 0.6s">p</span><span class="letter" style="--delay: 0.65s">r</span><span class="letter" style="--delay: 0.7s">o</span><span class="letter" style="--delay: 0.75s">d</span><span class="letter" style="--delay: 0.8s">u</span><span class="letter" style="--delay: 0.85s">c</span><span class="letter" style="--delay: 0.9s">t</span><span class="letter" style="--delay: 0.95s">i</span><span class="letter" style="--delay: 1s">o</span><span class="letter" style="--delay: 1.05s">n</span><span class="letter" style="--delay: 1.1s">s</span>
-                        </span>
-                    </h2>
-                    <p class="coming-soon">coming soon</p>
+            <!-- About Page -->
+            <div class="page" id="about">
+                <div class="container">
+                    <div class="content">
+                        <div class="lockup">
+                            <h1 class="title">about</h1>
+                            <p class="coming-soon">content coming soon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Work Page -->
+            <div class="page" id="work">
+                <div class="container">
+                    <div class="content">
+                        <div class="lockup">
+                            <h1 class="title">work</h1>
+                            <p class="coming-soon">content coming soon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Page -->
+            <div class="page" id="contact">
+                <div class="container">
+                    <div class="content">
+                        <div class="lockup">
+                            <h1 class="title">contact</h1>
+                            <p class="coming-soon">content coming soon</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,24 +85,52 @@
     <script>
         // Spotlight follows mouse cursor
         const spotlight = document.querySelector('.spotlight');
-        const letters = document.querySelectorAll('.letter');
         let mouseX = window.innerWidth / 2;
         let mouseY = window.innerHeight / 2;
+        let letters = document.querySelectorAll('.page.active .letter');
         
         // Spotlight radius (in pixels) - matches CSS size
         const spotlightRadius = 300;
         
-        // Initialize spotlight position at center
-        spotlight.style.setProperty('--x', '50%');
+        // Initialize spotlight position over side-nav (left side of screen)
+        spotlight.style.setProperty('--x', '15%');
         spotlight.style.setProperty('--y', '50%');
+        // Set initial mouse position to match
+        mouseX = window.innerWidth * 0.15;
+        mouseY = window.innerHeight * 0.5;
         
         // Function to calculate distance between two points
         function getDistance(x1, y1, x2, y2) {
             return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
         }
         
+        // Function to update side-nav visibility based on spotlight position
+        function updateSideNavEffects() {
+            const sideNav = document.querySelector('.side-nav');
+            const navLinks = sideNav.querySelectorAll('a');
+            
+            // Calculate distance from spotlight to side-nav center
+            const sideNavRect = sideNav.getBoundingClientRect();
+            const navX = sideNavRect.left + sideNavRect.width / 2;
+            const navY = sideNavRect.top + sideNavRect.height / 2;
+            
+            const distance = getDistance(mouseX, mouseY, navX, navY);
+            
+            // Calculate opacity based on distance (visible when close, invisible when far)
+            const maxDistance = spotlightRadius * 1.5; // Slightly larger radius for nav
+            const opacity = Math.max(0, Math.min(1, 1 - (distance / maxDistance)));
+            
+            // Apply opacity to nav links
+            navLinks.forEach(link => {
+                link.style.opacity = opacity * 0.6; // Base opacity of 0.6 when fully lit
+            });
+        }
+        
         // Function to update letter effects based on spotlight position
         function updateLetterEffects() {
+            // Get letters from active page only
+            letters = document.querySelectorAll('.page.active .letter');
+            
             letters.forEach(letter => {
                 const rect = letter.getBoundingClientRect();
                 const letterX = rect.left + rect.width / 2;
@@ -75,7 +152,7 @@
                 letter.style.filter = `brightness(${brightness})`;
                 letter.style.transform = `scale(${scale}) translateY(0)`;
                 letter.style.textShadow = intensity > 0.05 
-                    ? `0 0 ${shadowBlur}px rgba(255, 255, 255, ${intensity * 0.8})` 
+                    ? `0 0 ${shadowBlur}px rgba(168, 230, 207, ${intensity * 0.8})` 
                     : 'none';
             });
         }
@@ -89,6 +166,9 @@
             // Update spotlight position
             spotlight.style.setProperty('--x', xPercent + '%');
             spotlight.style.setProperty('--y', yPercent + '%');
+            
+            // Update side-nav effects
+            updateSideNavEffects();
             
             // Update letter effects
             updateLetterEffects();
@@ -104,6 +184,143 @@
         
         // Start animation loop
         animate();
+        
+        // Initialize side-nav visibility (should be visible since spotlight starts on it)
+        updateSideNavEffects();
+        
+        // Page navigation with smooth transitions
+        const navLinks = document.querySelectorAll('.side-nav a');
+        const homeButton = document.getElementById('homeButton');
+        const loader = document.querySelector('.loader');
+        let currentPage = 'home';
+        let isTransitioning = false;
+        let isInitialLoad = true;
+        
+        // Hide home button on home page, show on other pages
+        function updateHomeButtonVisibility() {
+            if (currentPage === 'home') {
+                homeButton.style.opacity = '0';
+                homeButton.style.visibility = 'hidden';
+                homeButton.style.pointerEvents = 'none';
+            } else {
+                homeButton.style.opacity = '0.4';
+                homeButton.style.visibility = 'visible';
+                homeButton.style.pointerEvents = 'auto';
+            }
+        }
+        
+        // Initialize - hide on home page
+        updateHomeButtonVisibility();
+        
+        // Home button click handler
+        homeButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isTransitioning || currentPage === 'home') return;
+            isTransitioning = true;
+            navigateToPage('home');
+        });
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (isTransitioning) return;
+                
+                const targetId = link.getAttribute('href').substring(1);
+                if (targetId === currentPage) return;
+                
+                isTransitioning = true;
+                navigateToPage(targetId);
+            });
+        });
+        
+        function navigateToPage(targetId) {
+            const currentPageEl = document.getElementById(currentPage);
+            const targetPageEl = document.getElementById(targetId);
+            
+            if (!currentPageEl || !targetPageEl) {
+                isTransitioning = false;
+                return;
+            }
+            
+            // Hide loader if navigating back to home (not initial load)
+            if (targetId === 'home' && !isInitialLoad && loader) {
+                loader.style.display = 'none';
+            }
+            
+            // Mark that initial load is complete after first navigation
+            if (isInitialLoad) {
+                isInitialLoad = false;
+            }
+            
+            // Add exit animation to current page
+            currentPageEl.classList.add('exiting');
+            currentPageEl.classList.remove('active');
+            
+            // If returning to home page, disable all animations BEFORE making page visible
+            if (targetId === 'home' && !isInitialLoad) {
+                // Apply no-animate class while page is still hidden to prevent animation
+                const targetLetters = targetPageEl.querySelectorAll('.letter');
+                targetLetters.forEach(letter => {
+                    letter.classList.add('no-animate');
+                });
+                // Also disable content animation
+                const targetContent = targetPageEl.querySelector('.content');
+                if (targetContent) {
+                    targetContent.classList.add('no-animate');
+                }
+            }
+            
+            // Set up target page for entry
+            targetPageEl.classList.add('entering');
+            targetPageEl.style.display = 'block';
+            
+            // After exit animation, switch pages
+            setTimeout(() => {
+                currentPageEl.classList.remove('exiting');
+                currentPageEl.style.display = 'none';
+                
+                targetPageEl.classList.remove('entering');
+                targetPageEl.classList.add('active');
+                currentPage = targetId;
+                
+                // Update home button visibility
+                updateHomeButtonVisibility();
+                
+                // Update letters reference for spotlight effect
+                letters = targetPageEl.querySelectorAll('.letter');
+                
+                // If returning to home page, keep everything visible (don't re-animate)
+                if (targetId === 'home' && !isInitialLoad) {
+                    const targetContent = targetPageEl.querySelector('.content');
+                    if (targetContent) {
+                        targetContent.style.opacity = '1';
+                        targetContent.style.transform = 'translateY(0)';
+                        targetContent.style.transition = 'none';
+                        // Ensure no-animate class is still applied
+                        targetContent.classList.add('no-animate');
+                    }
+                } else {
+                    // Animate content on new page (for other pages or initial home load)
+                    const targetContent = targetPageEl.querySelector('.content');
+                    if (targetContent) {
+                        targetContent.style.opacity = '0';
+                        targetContent.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            targetContent.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                            targetContent.style.opacity = '1';
+                            targetContent.style.transform = 'translateY(0)';
+                        }, 50);
+                    }
+                }
+                
+                isTransitioning = false;
+            }, 400);
+        }
+        
+        // Mark initial load as complete after the loader animation finishes
+        setTimeout(() => {
+            isInitialLoad = false;
+        }, 2500); // After loader animation completes
     </script>
 </body>
 </html>
