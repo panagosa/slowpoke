@@ -15,8 +15,8 @@ html, body {
 }
 
 body {
-    background: #000;
-    color: #fff;
+    background: #3C2414;
+    color: #A8E6CF;
     min-height: 100vh;
     overflow: hidden;
     display: flex;
@@ -45,9 +45,9 @@ body {
     border-radius: 50%;
     background: radial-gradient(
         circle at center,
-        rgba(255, 255, 255, 0.12) 0%,
-        rgba(255, 255, 255, 0.06) 30%,
-        rgba(255, 255, 255, 0.02) 50%,
+        rgba(168, 230, 207, 0.12) 0%,
+        rgba(168, 230, 207, 0.06) 30%,
+        rgba(168, 230, 207, 0.02) 50%,
         transparent 70%
     );
     transform: translate(-50%, -50%);
@@ -55,10 +55,136 @@ body {
     top: var(--y, 50%);
 }
 
+/* Home Button */
+.home-button {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 10;
+    color: #A8E6CF;
+    text-decoration: none;
+    font-family: 'OCR A Std Regular', 'OCR A Std', monospace;
+    font-size: 0.75rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.3s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.home-button:hover {
+    opacity: 1 !important;
+    transform: translateY(-2px);
+    text-shadow: 0 0 8px rgba(168, 230, 207, 0.5);
+}
+
+/* Side Navigation */
+.side-nav {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    padding: 0 2rem;
+    font-family: 'OCR A Std Regular', 'OCR A Std', monospace;
+    opacity: 0;
+    animation: fadeInContent 0.8s ease-out 2.2s forwards;
+}
+
+.side-nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.side-nav li {
+    position: relative;
+}
+
+.side-nav a {
+    color: #A8E6CF;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    transition: color 0.3s ease, opacity 0.4s ease;
+    display: block;
+    opacity: 0.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.side-nav a:hover {
+    opacity: 1 !important;
+    color: #A8E6CF;
+    text-shadow: 0 0 8px rgba(168, 230, 207, 0.5);
+}
+
+.side-nav a::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 1px;
+    background-color: #A8E6CF;
+    transition: width 0.3s ease;
+    opacity: 0;
+}
+
+.side-nav a:hover::before {
+    width: 1rem;
+    opacity: 0.6;
+}
+
 main {
     font-family: 'OCR A Std Regular', 'OCR A Std', monospace;
     width: 100%;
     height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.page.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.page.exiting {
+    display: block;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.page.entering {
+    display: block;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .container {
@@ -82,7 +208,7 @@ main {
     transform: translate(-50%, -50%);
     width: 300px;
     height: 2px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(168, 230, 207, 0.1);
     overflow: hidden;
     opacity: 1;
     animation: fadeOut 0.5s ease-out 2s forwards;
@@ -91,7 +217,7 @@ main {
 .loader-progress {
     height: 100%;
     width: 0%;
-    background-color: #fff;
+    background-color: #A8E6CF;
     animation: loadProgress 2s ease-out forwards;
 }
 
@@ -115,7 +241,20 @@ main {
 .content {
     text-align: center;
     opacity: 0;
+}
+
+.page#home .content:not(.no-animate) {
     animation: fadeInContent 0.8s ease-out 2.2s forwards;
+}
+
+.page#home .content.no-animate {
+    opacity: 1;
+    transform: translateY(0);
+    animation: none;
+}
+
+.page:not(#home) .content {
+    opacity: 1;
 }
 
 .lockup {
@@ -174,7 +313,7 @@ main {
     margin-top: 6px;
     padding-top: 8px;
     animation: fadeInContent 0.8s ease-out 2.5s forwards;
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(168, 230, 207, 0.45);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -187,11 +326,19 @@ main {
     position: relative;
     opacity: 0;
     transform: translateY(20px);
-    animation: letterReveal 0.6s ease-out forwards;
-    animation-delay: var(--delay);
     cursor: default;
     transition: filter 0.15s ease-out, transform 0.15s ease-out, text-shadow 0.15s ease-out;
     will-change: filter, transform, text-shadow;
+}
+
+.letter:not(.no-animate) {
+    animation: letterReveal 0.6s ease-out forwards;
+    animation-delay: var(--delay);
+}
+
+.letter.no-animate {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 
@@ -225,6 +372,14 @@ main {
         margin-top: 6px;
         padding-top: 6px;
     }
+    
+    .side-nav {
+        padding: 0 1.5rem;
+    }
+    
+    .side-nav a {
+        font-size: 0.8rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -248,6 +403,24 @@ main {
     
     .loader {
         width: 250px;
+    }
+    
+    .side-nav {
+        padding: 0 1rem;
+    }
+    
+    .side-nav a {
+        font-size: 0.75rem;
+    }
+    
+    .side-nav ul {
+        gap: 1.2rem;
+    }
+    
+    .home-button {
+        top: 1.5rem;
+        right: 1.5rem;
+        font-size: 0.7rem;
     }
 }
 
