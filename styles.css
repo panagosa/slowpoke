@@ -263,6 +263,18 @@ main {
     padding: 4px 0;
 }
 
+.ascii-art {
+    font-family: 'Courier New', monospace;
+    font-size: 0.55rem;
+    line-height: 1.1;
+    color: #A8E6CF;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeInContent 0.8s ease-out 2s forwards;
+    white-space: pre;
+    letter-spacing: 0.05em;
+}
+
 @keyframes fadeInContent {
     from {
         opacity: 0;
