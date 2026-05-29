@@ -279,6 +279,7 @@ main {
     width: min(420px, 72vw);
     height: auto;
     margin: 0 auto;
+    background: transparent;
     opacity: 0;
     transform: translateY(16px);
     transition: filter 0.15s ease-out, transform 0.15s ease-out;
