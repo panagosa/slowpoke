@@ -1,4 +1,12 @@
-/* Titular Regular - Loaded via Adobe Fonts */
+/* Outfit — geometric sans to complement the logo */
+
+:root {
+    --bg: #000000;
+    --fg: #ffffff;
+    --fg-muted: rgba(255, 255, 255, 0.45);
+    --fg-subtle: rgba(255, 255, 255, 0.12);
+    --font: 'Outfit', system-ui, sans-serif;
+}
 
 * {
     margin: 0;
@@ -12,18 +20,20 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    font-family: 'titular', 'Titular Regular', sans-serif;
+    font-family: var(--font);
 }
 
 body {
-    background: #3C2414;
-    color: #A8E6CF;
+    background: var(--bg);
+    color: var(--fg);
     min-height: 100vh;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Spotlight effect */
@@ -46,9 +56,9 @@ body {
     border-radius: 50%;
     background: radial-gradient(
         circle at center,
-        rgba(168, 230, 207, 0.12) 0%,
-        rgba(168, 230, 207, 0.06) 30%,
-        rgba(168, 230, 207, 0.02) 50%,
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(255, 255, 255, 0.03) 30%,
+        rgba(255, 255, 255, 0.01) 50%,
         transparent 70%
     );
     transform: translate(-50%, -50%);
@@ -62,25 +72,22 @@ body {
     top: 2rem;
     right: 2rem;
     z-index: 10;
-    color: #A8E6CF;
+    color: var(--fg);
     text-decoration: none;
-    font-family: 'titular', 'Titular Regular', sans-serif;
+    font-family: var(--font);
     font-size: 0.75rem;
-    font-weight: 300;
-    letter-spacing: 0.2em;
+    font-weight: 400;
+    letter-spacing: 0.25em;
     text-transform: lowercase;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.3s ease;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 .home-button:hover {
     opacity: 1 !important;
     transform: translateY(-2px);
-    text-shadow: 0 0 8px rgba(168, 230, 207, 0.5);
 }
 
 /* Side Navigation */
@@ -91,7 +98,7 @@ body {
     transform: translateY(-50%);
     z-index: 10;
     padding: 0 2rem;
-    font-family: 'titular', 'Titular Regular', sans-serif;
+    font-family: var(--font);
     opacity: 0;
     animation: fadeInContent 0.8s ease-out 2.2s forwards;
 }
@@ -108,23 +115,19 @@ body {
 }
 
 .side-nav a {
-    color: #A8E6CF;
+    color: var(--fg);
     text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 300;
-    letter-spacing: 0.2em;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.25em;
     text-transform: lowercase;
     transition: color 0.3s ease, opacity 0.4s ease;
     display: block;
-    opacity: 0.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    opacity: 0.5;
 }
 
 .side-nav a:hover {
     opacity: 1 !important;
-    color: #A8E6CF;
-    text-shadow: 0 0 8px rgba(168, 230, 207, 0.5);
 }
 
 .side-nav a::before {
@@ -135,7 +138,7 @@ body {
     transform: translateY(-50%);
     width: 0;
     height: 1px;
-    background-color: #A8E6CF;
+    background-color: var(--fg);
     transition: width 0.3s ease;
     opacity: 0;
 }
@@ -146,7 +149,7 @@ body {
 }
 
 main {
-    font-family: 'titular', 'Titular Regular', sans-serif;
+    font-family: var(--font);
     width: 100%;
     height: 100%;
     position: relative;
@@ -208,8 +211,8 @@ main {
     top: 50%;
     transform: translate(-50%, -50%);
     width: 300px;
-    height: 2px;
-    background-color: rgba(168, 230, 207, 0.1);
+    height: 1px;
+    background-color: var(--fg-subtle);
     overflow: hidden;
     opacity: 1;
     animation: fadeOut 0.5s ease-out 2s forwards;
@@ -218,17 +221,13 @@ main {
 .loader-progress {
     height: 100%;
     width: 0%;
-    background-color: #A8E6CF;
+    background-color: var(--fg);
     animation: loadProgress 2s ease-out forwards;
 }
 
 @keyframes loadProgress {
-    0% {
-        width: 0%;
-    }
-    100% {
-        width: 100%;
-    }
+    0% { width: 0%; }
+    100% { width: 100%; }
 }
 
 @keyframes fadeOut {
@@ -274,34 +273,47 @@ main {
     }
 }
 
+/* Logo */
+.logo {
+    display: block;
+    width: min(420px, 72vw);
+    height: auto;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: filter 0.15s ease-out, transform 0.15s ease-out;
+    will-change: filter, transform;
+}
+
+.logo:not(.no-animate) {
+    animation: logoReveal 0.9s ease-out 2.2s forwards;
+}
+
+.logo.no-animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes logoReveal {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .title {
-    font-size: 4rem;
-    font-weight: 300;
-    letter-spacing: 0.140625em;
+    font-size: 2.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: lowercase;
     margin: 0;
-    margin-bottom: 2px;
-    line-height: 0.95;
-}
-
-.subtitle {
-    font-size: 2.5rem;
-    font-weight: 300;
-    letter-spacing: 0.196875em;
-    text-transform: lowercase;
-    line-height: 0.9;
-    margin: 0;
-    margin-bottom: 8px;
-}
-
-.word {
-    display: inline-flex;
-}
-
-/* Normal per-letter spacing (avoid forced overlap) */
-.title .letter,
-.subtitle .letter {
-    margin-right: 0;
+    line-height: 1;
+    transition: filter 0.15s ease-out, transform 0.15s ease-out, text-shadow 0.15s ease-out;
+    will-change: filter, transform, text-shadow;
 }
 
 /* Work page */
@@ -330,8 +342,8 @@ main {
 }
 
 .work-title {
-    font-size: 2.5rem;
-    letter-spacing: 0.2em;
+    font-size: 2.25rem;
+    letter-spacing: 0.22em;
 }
 
 .work-grid {
@@ -353,8 +365,8 @@ main {
 .work-media {
     width: 100%;
     display: block;
-    border-radius: 2px;
-    background: rgba(168, 230, 207, 0.06);
+    border-radius: 0;
+    background: var(--fg-subtle);
 }
 
 video.work-media {
@@ -367,65 +379,27 @@ img.work-media {
 }
 
 .work-caption {
-    font-size: 0.75rem;
-    font-weight: 300;
-    letter-spacing: 0.15em;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
     text-transform: lowercase;
-    color: rgba(168, 230, 207, 0.55);
+    color: var(--fg-muted);
     margin: 0;
     line-height: 1.4;
 }
 
 .coming-soon {
-    font-size: 0.85rem;
-    font-weight: 300;
-    letter-spacing: 0.3em;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.28em;
     text-transform: lowercase;
     opacity: 0;
     margin: 0;
-    margin-top: 6px;
-    padding-top: 8px;
+    margin-top: 1.5rem;
     animation: fadeInContent 0.8s ease-out 2.5s forwards;
-    color: rgba(168, 230, 207, 0.45);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    color: var(--fg-muted);
     line-height: 1;
 }
-
-/* Letter Animation */
-.letter {
-    display: inline-block;
-    position: relative;
-    opacity: 0;
-    transform: translateY(20px);
-    cursor: default;
-    transition: filter 0.15s ease-out, transform 0.15s ease-out, text-shadow 0.15s ease-out;
-    will-change: filter, transform, text-shadow;
-}
-
-.letter:not(.no-animate) {
-    animation: letterReveal 0.6s ease-out forwards;
-    animation-delay: var(--delay);
-}
-
-.letter.no-animate {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
-@keyframes letterReveal {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 
 @media (max-width: 768px) {
     .page#work .work-container {
@@ -438,33 +412,27 @@ img.work-media {
     }
 
     .work-title {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
 
     .title {
-        font-size: 2.5rem;
-        margin-bottom: 2px;
-        line-height: 0.95;
+        font-size: 2rem;
     }
-    
-    .subtitle {
-        font-size: 1.5rem;
-        margin-bottom: 6px;
-        line-height: 0.9;
+
+    .logo {
+        width: min(320px, 80vw);
     }
-    
+
     .coming-soon {
-        font-size: 0.75rem;
-        margin-top: 6px;
-        padding-top: 6px;
+        font-size: 0.7rem;
     }
-    
+
     .side-nav {
         padding: 0 1.5rem;
     }
-    
+
     .side-nav a {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
     }
 }
 
@@ -474,43 +442,36 @@ img.work-media {
     }
 
     .title {
-        font-size: 2rem;
-        margin-bottom: 1px;
-        line-height: 0.95;
+        font-size: 1.65rem;
     }
-    
-    .subtitle {
-        font-size: 1.2rem;
-        margin-bottom: 5px;
-        line-height: 0.9;
+
+    .logo {
+        width: min(280px, 85vw);
     }
-    
+
     .coming-soon {
-        font-size: 0.7rem;
-        margin-top: 5px;
-        padding-top: 5px;
+        font-size: 0.65rem;
     }
-    
+
     .loader {
         width: 250px;
     }
-    
+
     .side-nav {
         padding: 0 1rem;
     }
-    
+
     .side-nav a {
-        font-size: 0.75rem;
+        font-size: 0.72rem;
     }
-    
+
     .side-nav ul {
         gap: 1.2rem;
     }
-    
+
     .home-button {
         top: 1.5rem;
         right: 1.5rem;
         font-size: 0.7rem;
     }
 }
-
