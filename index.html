@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>slowpoke productions</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="apple-touch-icon" href="assets/favicon.svg">
     <link rel="stylesheet" href="styles.css">
@@ -34,7 +31,7 @@
                     <!-- Content -->
                     <div class="content">
                         <div class="lockup">
-                            <img class="logo spotlight-target" src="assets/logo.svg" alt="slowpoke productions" width="930" height="758">
+                            <img class="logo spotlight-target" src="assets/logo.svg" alt="slowpoke productions" width="930" height="758" fetchpriority="high" decoding="async">
                         </div>
                     </div>
                 </div>
@@ -61,31 +58,31 @@
                         </header>
                         <div class="work-grid">
                             <article class="work-item work-item--video">
-                                <video class="work-media" controls playsinline preload="none" poster="assets/work/pete-crocs-nature-provides-poster.jpg" src="assets/work/pete-crocs-nature-provides.mp4"></video>
+                                <video class="work-media" controls playsinline preload="none" poster="assets/work/pete-crocs-nature-provides-poster.webp" src="assets/work/pete-crocs-nature-provides.mp4"></video>
                                 <p class="work-caption">pete + crocs — nature provides</p>
                             </article>
                             <article class="work-item work-item--video">
-                                <video class="work-media" controls playsinline preload="none" poster="assets/work/crocs-no-bare-feet-poster.jpg" src="assets/work/crocs-no-bare-feet.mp4"></video>
+                                <video class="work-media" controls playsinline preload="none" poster="assets/work/crocs-no-bare-feet-poster.webp" src="assets/work/crocs-no-bare-feet.mp4"></video>
                                 <p class="work-caption">crocs — no bare feet</p>
                             </article>
                             <article class="work-item">
-                                <img class="work-media" loading="lazy" decoding="async" src="assets/work/netflix-pete-davidson-john-mulaney.jpg" alt="The Pete Davidson Show — John Mulaney">
+                                <img class="work-media" loading="lazy" decoding="async" src="assets/work/netflix-pete-davidson-john-mulaney.webp" alt="The Pete Davidson Show — John Mulaney">
                                 <p class="work-caption">the pete davidson show — john mulaney</p>
                             </article>
                             <article class="work-item">
-                                <img class="work-media" loading="lazy" decoding="async" src="assets/work/netflix-pete-davidson-jon-stewart.jpg" alt="The Pete Davidson Show — Jon Stewart">
+                                <img class="work-media" loading="lazy" decoding="async" src="assets/work/netflix-pete-davidson-jon-stewart.webp" alt="The Pete Davidson Show — Jon Stewart">
                                 <p class="work-caption">the pete davidson show — jon stewart</p>
                             </article>
                             <article class="work-item">
-                                <img class="work-media" loading="lazy" decoding="async" src="assets/work/netflix-pete-davidson-katie-nolan.jpg" alt="The Pete Davidson Show — Katie Nolan">
+                                <img class="work-media" loading="lazy" decoding="async" src="assets/work/netflix-pete-davidson-katie-nolan.webp" alt="The Pete Davidson Show — Katie Nolan">
                                 <p class="work-caption">the pete davidson show — katie nolan</p>
                             </article>
                             <article class="work-item">
-                                <img class="work-media" loading="lazy" decoding="async" src="assets/work/netflix-pete-davidson-paul-walter-hauser.jpg" alt="The Pete Davidson Show — Paul Walter Hauser">
+                                <img class="work-media" loading="lazy" decoding="async" src="assets/work/netflix-pete-davidson-paul-walter-hauser.webp" alt="The Pete Davidson Show — Paul Walter Hauser">
                                 <p class="work-caption">the pete davidson show — paul walter hauser</p>
                             </article>
                             <article class="work-item">
-                                <img class="work-media" loading="lazy" decoding="async" src="assets/work/ems-feature.jpg" alt="Pete Davidson — Turbo Fonzarelli">
+                                <img class="work-media" loading="lazy" decoding="async" src="assets/work/ems-feature.webp" alt="Pete Davidson — Turbo Fonzarelli">
                                 <p class="work-caption">pete davidson — turbo fonzarelli</p>
                             </article>
                         </div>
@@ -107,119 +104,137 @@
         </div>
     </main>
     <script>
-        // Spotlight follows mouse cursor
         const spotlight = document.querySelector('.spotlight');
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
+        const sideNav = document.querySelector('.side-nav');
+        const navLinks = sideNav.querySelectorAll('a');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+        const spotlightEnabled = !prefersReducedMotion && !isCoarsePointer;
+
+        let mouseX = window.innerWidth * 0.15;
+        let mouseY = window.innerHeight * 0.5;
         let spotlightTargets = document.querySelectorAll('.page.active .spotlight-target');
-        
-        // Spotlight radius (in pixels) - matches CSS size
+        let animating = false;
+        let idleTimer = null;
+        let cachedNavRect = null;
+        let cachedTargetRects = [];
+
         const spotlightRadius = 300;
-        
-        // Initialize spotlight position over side-nav (left side of screen)
-        spotlight.style.setProperty('--x', '15%');
-        spotlight.style.setProperty('--y', '50%');
-        // Set initial mouse position to match
-        mouseX = window.innerWidth * 0.15;
-        mouseY = window.innerHeight * 0.5;
-        
-        // Function to calculate distance between two points
-        function getDistance(x1, y1, x2, y2) {
-            return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+
+        if (spotlightEnabled) {
+            spotlight.style.setProperty('--x', '15%');
+            spotlight.style.setProperty('--y', '50%');
+        } else {
+            spotlight.style.display = 'none';
+            navLinks.forEach(link => { link.style.opacity = '0.5'; });
         }
-        
-        // Function to update side-nav visibility based on spotlight position
+
+        function getDistance(x1, y1, x2, y2) {
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            return Math.hypot(dx, dy);
+        }
+
+        function cacheLayout() {
+            cachedNavRect = sideNav.getBoundingClientRect();
+            cachedTargetRects = Array.from(spotlightTargets).map(target => ({
+                target,
+                isImage: target.tagName === 'IMG',
+                rect: target.getBoundingClientRect()
+            }));
+        }
+
         function updateSideNavEffects() {
-            const sideNav = document.querySelector('.side-nav');
-            const navLinks = sideNav.querySelectorAll('a');
-            
-            // Calculate distance from spotlight to side-nav center
-            const sideNavRect = sideNav.getBoundingClientRect();
-            const navX = sideNavRect.left + sideNavRect.width / 2;
-            const navY = sideNavRect.top + sideNavRect.height / 2;
-            
+            if (!cachedNavRect) return;
+
+            const navX = cachedNavRect.left + cachedNavRect.width / 2;
+            const navY = cachedNavRect.top + cachedNavRect.height / 2;
             const distance = getDistance(mouseX, mouseY, navX, navY);
-            
-            // Calculate opacity based on distance (visible when close, invisible when far)
-            const maxDistance = spotlightRadius * 1.5; // Slightly larger radius for nav
+            const maxDistance = spotlightRadius * 1.5;
             const opacity = Math.max(0, Math.min(1, 1 - (distance / maxDistance)));
-            
-            // Apply opacity to nav links
+
             navLinks.forEach(link => {
-                link.style.opacity = opacity * 0.6; // Base opacity of 0.6 when fully lit
+                link.style.opacity = String(opacity * 0.6);
             });
         }
-        
-        // Function to update spotlight glow on logo and titles
+
         function updateSpotlightEffects() {
-            spotlightTargets = document.querySelectorAll('.page.active .spotlight-target');
-            
-            spotlightTargets.forEach(target => {
-                const rect = target.getBoundingClientRect();
+            cachedTargetRects.forEach(({ target, isImage, rect }) => {
                 const targetX = rect.left + rect.width / 2;
                 const targetY = rect.top + rect.height / 2;
-                
                 const distance = getDistance(mouseX, mouseY, targetX, targetY);
-                const maxDistance = spotlightRadius;
-                const intensity = Math.max(0, 1 - (distance / maxDistance));
-                
+                const intensity = Math.max(0, 1 - (distance / spotlightRadius));
+
+                if (intensity <= 0.05) {
+                    target.style.filter = '';
+                    if (!isImage) {
+                        target.style.transform = '';
+                        target.style.textShadow = 'none';
+                    }
+                    return;
+                }
+
                 const brightness = 1 + (intensity * 0.6);
+                target.style.filter = `brightness(${brightness})`;
+
+                if (isImage) return;
+
                 const scale = 1 + (intensity * 0.03);
                 const shadowBlur = intensity * 24;
-                
-                target.style.filter = intensity > 0.05
-                    ? `brightness(${brightness})`
-                    : '';
-                
-                if (target.tagName === 'IMG') return;
-                
-                target.style.transform = intensity > 0.05 ? `scale(${scale})` : '';
-                target.style.textShadow = intensity > 0.05
-                    ? `0 0 ${shadowBlur}px rgba(255, 255, 255, ${intensity * 0.5})`
-                    : 'none';
+                target.style.transform = `scale(${scale})`;
+                target.style.textShadow = `0 0 ${shadowBlur}px rgba(255, 255, 255, ${intensity * 0.5})`;
             });
         }
-        
-        // Animation loop for smooth, consistent updates
+
         function animate() {
-            // Convert pixel position to percentage
-            const xPercent = (mouseX / window.innerWidth) * 100;
-            const yPercent = (mouseY / window.innerHeight) * 100;
-            
-            // Update spotlight position
-            spotlight.style.setProperty('--x', xPercent + '%');
-            spotlight.style.setProperty('--y', yPercent + '%');
-            
-            // Update side-nav effects
+            if (!animating) return;
+
+            spotlight.style.setProperty('--x', ((mouseX / window.innerWidth) * 100) + '%');
+            spotlight.style.setProperty('--y', ((mouseY / window.innerHeight) * 100) + '%');
             updateSideNavEffects();
-            
-            // Update letter effects
             updateSpotlightEffects();
-            
             requestAnimationFrame(animate);
         }
-        
-        // Track mouse movement - update target position
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        // Start animation loop
-        animate();
-        
-        // Initialize side-nav visibility (should be visible since spotlight starts on it)
-        updateSideNavEffects();
-        
-        // Page navigation with smooth transitions
-        const navLinks = document.querySelectorAll('.side-nav a');
+
+        function startAnimation() {
+            if (!spotlightEnabled || animating) return;
+            animating = true;
+            cacheLayout();
+            requestAnimationFrame(animate);
+        }
+
+        function stopAnimation() {
+            animating = false;
+        }
+
+        function scheduleStop() {
+            clearTimeout(idleTimer);
+            idleTimer = setTimeout(stopAnimation, 120);
+        }
+
+        if (spotlightEnabled) {
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                startAnimation();
+                scheduleStop();
+            }, { passive: true });
+
+            window.addEventListener('resize', cacheLayout);
+            document.getElementById('work').addEventListener('scroll', () => {
+                if (animating) cacheLayout();
+            }, { passive: true });
+            cacheLayout();
+            startAnimation();
+        }
+
         const homeButton = document.getElementById('homeButton');
         const loader = document.querySelector('.loader');
+        const navLinkEls = document.querySelectorAll('.side-nav a');
         let currentPage = 'home';
         let isTransitioning = false;
         let isInitialLoad = true;
-        
-        // Hide home button on home page, show on other pages
+
         function updateHomeButtonVisibility() {
             if (currentPage === 'home') {
                 homeButton.style.opacity = '0';
@@ -231,97 +246,80 @@
                 homeButton.style.pointerEvents = 'auto';
             }
         }
-        
-        // Initialize - hide on home page
+
         updateHomeButtonVisibility();
-        
-        // Home button click handler
+
         homeButton.addEventListener('click', (e) => {
             e.preventDefault();
             if (isTransitioning || currentPage === 'home') return;
             isTransitioning = true;
             navigateToPage('home');
         });
-        
-        navLinks.forEach(link => {
+
+        navLinkEls.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (isTransitioning) return;
-                
+
                 const targetId = link.getAttribute('href').substring(1);
                 if (targetId === currentPage) return;
-                
+
                 isTransitioning = true;
                 navigateToPage(targetId);
             });
         });
-        
+
         function navigateToPage(targetId) {
             const currentPageEl = document.getElementById(currentPage);
             const targetPageEl = document.getElementById(targetId);
-            
+
             if (!currentPageEl || !targetPageEl) {
                 isTransitioning = false;
                 return;
             }
-            
-            // Hide loader if navigating back to home (not initial load)
+
             if (targetId === 'home' && !isInitialLoad && loader) {
                 loader.style.display = 'none';
             }
-            
-            // Mark that initial load is complete after first navigation
+
             if (isInitialLoad) {
                 isInitialLoad = false;
             }
-            
-            // Add exit animation to current page
+
             currentPageEl.classList.add('exiting');
             currentPageEl.classList.remove('active');
-            
-            // If returning to home page, disable all animations BEFORE making page visible
+
             if (targetId === 'home' && !isInitialLoad) {
                 const targetLogo = targetPageEl.querySelector('.logo');
-                if (targetLogo) {
-                    targetLogo.classList.add('no-animate');
-                }
+                if (targetLogo) targetLogo.classList.add('no-animate');
                 const targetContent = targetPageEl.querySelector('.content');
-                if (targetContent) {
-                    targetContent.classList.add('no-animate');
-                }
+                if (targetContent) targetContent.classList.add('no-animate');
             }
-            
-            // Set up target page for entry
+
             targetPageEl.classList.add('entering');
             targetPageEl.style.display = 'block';
-            
-            // After exit animation, switch pages
+
             setTimeout(() => {
                 currentPageEl.classList.remove('exiting');
                 currentPageEl.style.display = 'none';
-                
+
                 targetPageEl.classList.remove('entering');
                 targetPageEl.classList.add('active');
                 currentPage = targetId;
-                
-                // Update home button visibility
+
                 updateHomeButtonVisibility();
-                
-                // Update letters reference for spotlight effect
                 spotlightTargets = targetPageEl.querySelectorAll('.spotlight-target');
-                
-                // If returning to home page, keep everything visible (don't re-animate)
+                if (spotlightEnabled) cacheLayout();
+
                 if (targetId === 'home' && !isInitialLoad) {
                     const targetContent = targetPageEl.querySelector('.content');
                     if (targetContent) {
                         targetContent.style.opacity = '1';
                         targetContent.style.transform = 'translateY(0)';
                         targetContent.style.transition = 'none';
-                        // Ensure no-animate class is still applied
                         targetContent.classList.add('no-animate');
                     }
                 } else {
-                    // Animate content on new page (for other pages or initial home load)
                     const targetContent = targetPageEl.querySelector('.content');
                     if (targetContent) {
                         targetContent.style.opacity = '0';
@@ -333,15 +331,14 @@
                         }, 50);
                     }
                 }
-                
+
                 isTransitioning = false;
             }, 400);
         }
-        
-        // Mark initial load as complete after the loader animation finishes
+
         setTimeout(() => {
             isInitialLoad = false;
-        }, 2500); // After loader animation completes
+        }, 1300);
     </script>
 </body>
 </html>
