@@ -446,13 +446,16 @@ img.work-media {
     border: none;
     color: var(--fg-muted);
     font-family: var(--font);
-    font-size: 0.72rem;
-    font-weight: 400;
-    letter-spacing: 0.18em;
-    text-transform: lowercase;
     cursor: pointer;
-    padding: 0.5rem 0;
+    padding: 0.5rem;
+    line-height: 0;
     transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.work-carousel-btn svg {
+    display: block;
+    width: 12px;
+    height: 12px;
 }
 
 .work-carousel-btn:hover,
@@ -742,14 +745,17 @@ img.work-media {
     }
 
     .work-carousel-btn {
-        font-size: 0.68rem;
-        letter-spacing: 0.12em;
         min-height: 44px;
         min-width: 44px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         padding: 0.5rem;
+    }
+
+    .work-carousel-btn svg {
+        width: 11px;
+        height: 11px;
     }
 
     .work-carousel .work-media,
