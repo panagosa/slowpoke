@@ -22,6 +22,10 @@
     --fg-muted: rgba(255, 255, 255, 0.45);
     --fg-subtle: rgba(255, 255, 255, 0.12);
     --font: 'Outfit', system-ui, sans-serif;
+    --page-gutter: 1.25rem;
+    --page-top: 4.5rem;
+    --page-bottom: 1.5rem;
+    --nav-width: 7rem;
 }
 
 * {
@@ -344,7 +348,7 @@ main {
     justify-content: flex-start;
     min-height: 100vh;
     height: auto;
-    padding: 5rem 3rem 4rem 7rem;
+    padding: 5rem 3rem 4rem calc(var(--nav-width) + 2rem);
 }
 
 .page#work .work-content {
@@ -553,7 +557,7 @@ img.work-media {
     justify-content: flex-start;
     min-height: 100vh;
     height: auto;
-    padding: 5rem 3rem 4rem 7rem;
+    padding: 5rem 3rem 4rem calc(var(--nav-width) + 2rem);
 }
 
 .page#about .about-content {
@@ -602,95 +606,239 @@ img.work-media {
     outline: none;
 }
 
+.page#contact {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.page#about,
+.page#work {
+    -webkit-overflow-scrolling: touch;
+}
+
 @media (max-width: 768px) {
+    :root {
+        --page-gutter: 1.25rem;
+        --page-top: max(1.25rem, env(safe-area-inset-top));
+        --page-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+        --nav-width: 0rem;
+    }
+
+    .home-button {
+        top: max(1rem, env(safe-area-inset-top));
+        right: max(1rem, env(safe-area-inset-right));
+        font-size: 0.7rem;
+        letter-spacing: 0.18em;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .side-nav {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transform: none;
+        padding: 0.85rem max(1.25rem, env(safe-area-inset-right)) calc(0.85rem + env(safe-area-inset-bottom)) max(1.25rem, env(safe-area-inset-left));
+        border-top: 1px solid var(--fg-subtle);
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    .side-nav ul {
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 0.5rem;
+    }
+
+    .side-nav a {
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        padding: 0.65rem 0.5rem;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .side-nav a::before {
+        display: none;
+    }
+
+    .page#home .container,
+    .page#contact .container,
+    .page#about .about-container,
     .page#work .work-container {
-        padding: 4.5rem 1.5rem 2.5rem 4.5rem;
+        padding: calc(var(--page-top) + 2.5rem) var(--page-gutter) var(--page-bottom);
+        align-items: center;
+    }
+
+    .page#about .about-container,
+    .page#work .work-container {
+        align-items: flex-start;
+    }
+
+    .page#about .about-content,
+    .page#work .work-content {
+        max-width: none;
+    }
+
+    .page#about .about-content .lockup {
+        width: 100%;
+    }
+
+    .title,
+    .work-title {
+        letter-spacing: 0.1em;
     }
 
     .work-title {
-        font-size: 1.75rem;
+        font-size: 1.65rem;
+    }
+
+    .title {
+        font-size: 1.85rem;
+    }
+
+    .logo {
+        width: min(300px, 78vw);
+    }
+
+    .page-copy {
+        font-size: 0.875rem;
+        line-height: 1.7;
+        letter-spacing: 0.02em;
+    }
+
+    .contact-name,
+    .contact-email-line {
+        font-size: 0.875rem;
+        letter-spacing: 0.06em;
+    }
+
+    .contact-email {
+        overflow-wrap: anywhere;
+    }
+
+    .work-header {
+        margin-bottom: 1.25rem;
+    }
+
+    .work-carousel {
+        margin-bottom: 2rem;
     }
 
     .work-carousel-controls {
-        position: static;
-        transform: none;
-        justify-content: center;
-        gap: 2rem;
-        margin-bottom: 1rem;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        transform: translateY(calc(-50% - 0.75rem));
+        margin-bottom: 0;
+        padding: 0;
     }
 
-    video.work-media,
-    img.work-media {
-        max-height: min(44vh, 360px);
+    .work-carousel-btn {
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem;
+    }
+
+    .work-carousel .work-media,
+    .work-carousel img.work-media,
+    .work-carousel video.work-media {
+        max-height: min(38vh, 280px);
+    }
+
+    .work-caption {
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        line-height: 1.5;
+    }
+
+    .work-carousel-footer {
+        flex-wrap: wrap;
+        margin-top: 1rem;
+    }
+
+    .work-carousel-dot {
+        width: 8px;
+        height: 8px;
+        padding: 10px;
+        background-clip: content-box;
+        box-sizing: content-box;
     }
 
     .work-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 1.75rem;
     }
 
-    .title {
-        font-size: 2rem;
+    .loader {
+        width: min(250px, 70vw);
     }
 
-    .logo {
-        width: min(320px, 80vw);
+    .container,
+    .page#work .work-container,
+    .page#about .about-container,
+    .page#contact .container {
+        min-height: 100dvh;
     }
 
-    .page#about .about-container {
-        padding: 4.5rem 1.5rem 3rem 4.5rem;
+    .page#home .container {
+        justify-content: center;
     }
 
-    .page-copy {
-        font-size: 0.78rem;
+    .page#home .lockup {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .page#contact .lockup {
+        width: 100%;
     }
 
     .side-nav {
-        padding: 0 1.5rem;
-    }
-
-    .side-nav a {
-        font-size: 0.78rem;
+        z-index: 20;
     }
 }
 
 @media (max-width: 480px) {
-    .page#work .work-container {
-        padding: 4rem 1rem 2.5rem 3.5rem;
+    :root {
+        --page-gutter: 1rem;
     }
 
     .title {
         font-size: 1.65rem;
     }
 
+    .work-title {
+        font-size: 1.5rem;
+    }
+
     .logo {
-        width: min(280px, 85vw);
+        width: min(260px, 82vw);
     }
 
-    .coming-soon {
-        font-size: 0.65rem;
-    }
-
-    .loader {
-        width: 250px;
-    }
-
-    .side-nav {
-        padding: 0 1rem;
+    .work-carousel .work-media,
+    .work-carousel img.work-media,
+    .work-carousel video.work-media {
+        max-height: min(34vh, 240px);
     }
 
     .side-nav a {
-        font-size: 0.72rem;
-    }
-
-    .side-nav ul {
-        gap: 1.2rem;
-    }
-
-    .home-button {
-        top: 1.5rem;
-        right: 1.5rem;
-        font-size: 0.7rem;
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
     }
 }
 
