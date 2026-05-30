@@ -543,6 +543,65 @@ img.work-media {
     line-height: 1;
 }
 
+.page#about {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.page#about .about-container {
+    align-items: flex-start;
+    justify-content: flex-start;
+    min-height: 100vh;
+    height: auto;
+    padding: 5rem 3rem 4rem 7rem;
+}
+
+.page#about .about-content {
+    text-align: left;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.page-copy {
+    font-size: 0.82rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--fg-muted);
+    margin: 1.75rem 0 0;
+    line-height: 1.75;
+    max-width: 36rem;
+}
+
+.contact-info {
+    margin-top: 1.75rem;
+}
+
+.contact-name,
+.contact-email-line {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    line-height: 1.8;
+}
+
+.contact-name {
+    color: var(--fg);
+}
+
+.contact-email {
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.contact-email:hover,
+.contact-email:focus-visible {
+    color: var(--fg);
+    outline: none;
+}
+
 @media (max-width: 768px) {
     .page#work .work-container {
         padding: 4.5rem 1.5rem 2.5rem 4.5rem;
@@ -578,8 +637,12 @@ img.work-media {
         width: min(320px, 80vw);
     }
 
-    .coming-soon {
-        font-size: 0.7rem;
+    .page#about .about-container {
+        padding: 4.5rem 1.5rem 3rem 4.5rem;
+    }
+
+    .page-copy {
+        font-size: 0.78rem;
     }
 
     .side-nav {
