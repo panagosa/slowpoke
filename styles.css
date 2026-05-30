@@ -335,21 +335,22 @@ main {
 
 /* Work page */
 .page#work {
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .page#work .work-container {
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-start;
     min-height: 100vh;
-    height: 100vh;
-    padding: 5rem 3rem 3rem 7rem;
+    height: auto;
+    padding: 5rem 3rem 4rem 7rem;
 }
 
 .page#work .work-content {
     text-align: left;
     width: 100%;
-    max-width: 960px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
@@ -365,6 +366,7 @@ main {
 .work-carousel {
     position: relative;
     width: 100%;
+    margin-bottom: 3rem;
 }
 
 .work-carousel-viewport {
@@ -499,6 +501,35 @@ img.work-media {
     white-space: nowrap;
 }
 
+.work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 2rem;
+}
+
+.work-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.work-item--video {
+    grid-column: 1 / -1;
+}
+
+.work-grid .work-media {
+    max-height: none;
+}
+
+.work-grid img.work-media {
+    height: auto;
+    object-fit: initial;
+}
+
+.work-grid video.work-media {
+    max-height: none;
+}
+
 .coming-soon {
     font-size: 0.75rem;
     font-weight: 400;
@@ -532,6 +563,11 @@ img.work-media {
     video.work-media,
     img.work-media {
         max-height: min(44vh, 360px);
+    }
+
+    .work-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
     }
 
     .title {

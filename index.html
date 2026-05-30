@@ -56,10 +56,10 @@
                         <header class="work-header">
                             <h1 class="title work-title spotlight-target">work</h1>
                         </header>
-                        <div class="work-carousel" aria-roledescription="carousel">
+                        <div class="work-carousel" aria-roledescription="carousel" aria-label="The Pete Davidson Show">
                             <div class="work-carousel-controls">
-                                <button type="button" class="work-carousel-btn work-carousel-prev" aria-label="Previous project">prev</button>
-                                <button type="button" class="work-carousel-btn work-carousel-next" aria-label="Next project">next</button>
+                                <button type="button" class="work-carousel-btn work-carousel-prev" aria-label="Previous still">prev</button>
+                                <button type="button" class="work-carousel-btn work-carousel-next" aria-label="Next still">next</button>
                             </div>
                             <div class="work-carousel-viewport">
                                 <div class="work-carousel-track">
@@ -79,24 +79,26 @@
                                         <img class="work-media spotlight-target" loading="lazy" decoding="async" src="assets/work/netflix-pete-davidson-paul-walter-hauser.webp" alt="The Pete Davidson Show — Paul Walter Hauser">
                                         <figcaption class="work-caption">the pete davidson show — paul walter hauser</figcaption>
                                     </figure>
-                                    <figure class="work-slide work-slide--video">
-                                        <video class="work-media" controls playsinline preload="none" poster="assets/work/pete-crocs-nature-provides-poster.webp" src="assets/work/pete-crocs-nature-provides.mp4"></video>
-                                        <figcaption class="work-caption">pete + crocs — nature provides</figcaption>
-                                    </figure>
-                                    <figure class="work-slide work-slide--video">
-                                        <video class="work-media" controls playsinline preload="none" poster="assets/work/crocs-no-bare-feet-poster.webp" src="assets/work/crocs-no-bare-feet.mp4"></video>
-                                        <figcaption class="work-caption">crocs — no bare feet</figcaption>
-                                    </figure>
-                                    <figure class="work-slide">
-                                        <img class="work-media spotlight-target" loading="lazy" decoding="async" src="assets/work/ems-feature.webp" alt="Pete Davidson — Turbo Fonzarelli">
-                                        <figcaption class="work-caption">pete davidson — turbo fonzarelli</figcaption>
-                                    </figure>
                                 </div>
                             </div>
                             <div class="work-carousel-footer">
-                                <div class="work-carousel-dots" role="tablist" aria-label="Select project"></div>
+                                <div class="work-carousel-dots" role="tablist" aria-label="Select still"></div>
                                 <p class="work-carousel-status" aria-live="polite"></p>
                             </div>
+                        </div>
+                        <div class="work-grid">
+                            <article class="work-item work-item--video">
+                                <video class="work-media" controls playsinline preload="none" poster="assets/work/pete-crocs-nature-provides-poster.webp" src="assets/work/pete-crocs-nature-provides.mp4"></video>
+                                <p class="work-caption">pete + crocs — nature provides</p>
+                            </article>
+                            <article class="work-item work-item--video">
+                                <video class="work-media" controls playsinline preload="none" poster="assets/work/crocs-no-bare-feet-poster.webp" src="assets/work/crocs-no-bare-feet.mp4"></video>
+                                <p class="work-caption">crocs — no bare feet</p>
+                            </article>
+                            <article class="work-item">
+                                <img class="work-media spotlight-target" loading="lazy" decoding="async" src="assets/work/ems-feature.webp" alt="Pete Davidson — Turbo Fonzarelli">
+                                <p class="work-caption">pete davidson — turbo fonzarelli</p>
+                            </article>
                         </div>
                     </div>
                 </div>
@@ -388,16 +390,13 @@
                 return (i + slides.length) % slides.length;
             }
 
-            function pauseVideos() {
-                slides.forEach(slide => {
-                    const video = slide.querySelector('video');
-                    if (video) video.pause();
-                });
+            function pauseWorkVideos() {
+                document.querySelectorAll('#work video').forEach(video => video.pause());
             }
 
             function updateSpotlightTargets() {
                 if (currentPage !== 'work') return;
-                spotlightTargets = document.querySelectorAll('#work .work-slide.is-active .spotlight-target, #work .work-title');
+                spotlightTargets = document.querySelectorAll('#work .work-slide.is-active .spotlight-target, #work .work-grid .spotlight-target, #work .work-title');
                 if (spotlightEnabled) cacheLayout();
             }
 
@@ -412,7 +411,6 @@
 
             function goToSlide(index) {
                 slideIndex = wrapIndex(index);
-                pauseVideos();
                 layoutCarousel();
                 slides.forEach((slide, i) => {
                     slide.classList.toggle('is-active', i === slideIndex);
@@ -456,7 +454,7 @@
                 goToSlide(slideIndex);
                 updateSpotlightTargets();
             };
-            onWorkPageLeave = pauseVideos;
+            onWorkPageLeave = pauseWorkVideos;
 
             window.addEventListener('resize', layoutCarousel);
 
